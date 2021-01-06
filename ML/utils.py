@@ -1,6 +1,7 @@
 '''
 公共方法
 '''
+from sklearn.metrics import mean_squared_error
 
 '''
 desc: 把一天的时间分段
