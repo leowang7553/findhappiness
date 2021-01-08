@@ -21,7 +21,7 @@ test_sub = pd.read_csv(filePath + os.sep + "datasets" + os.sep + "happiness_subm
 # 观察数据大小
 # print('test shape: ', test.shape)
 # print('test_abbr shape: ', test_abbr.shape)
-# print('test_sub shape: ', test_sub.shape)
+# print('test_sub shape: ', test_sub.head())
 # print('train shape: ', train.shape)
 # print('train_abbr shape: ', train_abbr.shape)
 
@@ -34,13 +34,17 @@ test_sub = pd.read_csv(filePath + os.sep + "datasets" + os.sep + "happiness_subm
 def data_process():
     # 查看label分布
     y_train_ = train["happiness"]
+    y_test_ = test_sub["happiness"]
+    id_test_ = test_sub["id"]
     # print(y_train_.value_counts())
 
     # 处理y_train中的异常值：将-8换成3
     y_train_ = y_train_.map(lambda x:3 if x==-8 else x)
+    y_test_ = y_test_.map(lambda x:3 if x==-8 else x)
 
     # 处理y_train中的数据：让label从0开始, happiness:0~4
     y_train_ = y_train_.map(lambda x:x-1)
+    y_test_ = y_test_.map(lambda x:x-1)
 
     # 数据拼接：train和test连在一起
     data = pd.concat([train,test],axis=0,ignore_index=True, sort=True)
@@ -112,7 +116,7 @@ def data_process():
     # X_test  = np.array(X_test_)
     # y_train = np.array(y_train_)
     
-    return train, test, X_train_, y_train_, X_test_
+    return train, test, X_train_, y_train_, X_test_, y_test_, id_test_
 
 
 
