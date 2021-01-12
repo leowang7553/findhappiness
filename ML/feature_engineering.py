@@ -6,7 +6,7 @@ from sklearn.preprocessing import Imputer
 
 from data_preprocessing import data_process
 
-train, test, X_train_, y_train_, X_test_, y_test_, id_test_ = data_process()
+train, test, X_train_, y_train_, X_test_, id_test_ = data_process()
 
 def forest_evaluation():
     feat_labels = X_train_.columns
@@ -32,33 +32,54 @@ def forest_evaluation():
     for f in range(X_train_.shape[1]):
         print("%2d) %-*s %f" % (f + 1, 30, feat_labels[indices[f]], importances[indices[f]]))
 
+'''
+desc: 随机森林评估特征重要性，选取前20个
+'''
 def data_forest_select():
     X_train_f = X_train_[['equity', 'depression', 'floor_area', 'county', 'city', 'family_income', 'weight_jin', 'class', 'class_10_after', 'survey_age',
                     'height_cm', 'birth', 'income', 'marital_1st', 'inc_exp', 'hour', 'public_service_7', 'province', 'public_service_6', 's_birth']]
     X_test_f = X_test_[['equity', 'depression', 'floor_area', 'county', 'city', 'family_income', 'weight_jin', 'class', 'class_10_after', 'survey_age',
                 'height_cm', 'birth', 'income', 'marital_1st', 'inc_exp', 'hour', 'public_service_7', 'province', 'public_service_6', 's_birth']]
-    return train, test, X_train_f, y_train_, X_test_f, y_test_, id_test_
-
+    return train, test, X_train_f, y_train_, X_test_f, id_test_
 
 '''
- 1) equity                         0.023727
- 2) depression                     0.018445
- 3) floor_area                     0.017662
- 4) county                         0.017301
- 5) city                           0.015866
- 6) family_income                  0.015782
- 7) weight_jin                     0.015636
- 8) class                          0.015000
- 9) class_10_after                 0.014890
-10) survey_age                     0.014688
-11) height_cm                      0.014664
-12) birth                          0.014658
-13) income                         0.014310
-14) marital_1st                    0.013884
-15) inc_exp                        0.013140
-16) hour                           0.012959
-17) public_service_7               0.012826
-18) province                       0.012638
-19) public_service_6               0.012621
-20) s_birth                        0.012369
+desc: 结合算法评估的特征重要性与人工筛选
+'''
+def data_select():
+    X_train_f = X_train_[['birth_s', 'BMI', 'health', 'marital', 'religion', 'depression', 'relax', 'class', 'status_3_before', 'class_10_after', 'income_cut',
+                    'inc_exp_cut', 'inc_ability', 'house_cut', 'floor_area_cut', 'family_m', 'floor_area_avg_cut', 'family_income_cut', 'family_status', 'social_neighbor', 'social_friend', 'equity']]
+    X_test_f = X_test_[['birth_s', 'BMI', 'health', 'marital', 'religion', 'depression', 'relax', 'class', 'status_3_before', 'class_10_after', 'income_cut',
+                    'inc_exp_cut', 'inc_ability', 'house_cut', 'floor_area_cut', 'family_m', 'floor_area_avg_cut', 'family_income_cut', 'family_status', 'social_neighbor', 'social_friend', 'equity']]
+    # print(X_train_f.info(verbose=True, null_counts=True))
+    # print(X_train_f['depression'].value_counts())
+    # print(X_train_f['social_friend'].min())
+    # print(X_train_f.max())
+    return train, test, X_train_f, y_train_, X_test_f, id_test_
+
+# data_select()
+
+'''
+desc: 算法+人工筛选
+- birth   birth_s替换
+- height_cm  BMI替换
+- weight_jin  BMI替换
+- health
+- marital
+- religion
+- depression
+- relax
+- class
+- status_3_before
+- class_10_after
+- income  income_cut替换
+- inc_exp  inc_exp_cut替换
+- inc_ability
+- house  house_cut替换
+- floor_area floor_area_cut替换
+- family_m
+- family_income  family_income_cut替换
+- family_status
+- social_neighbor
+- social_friend
+- equity
 '''
